@@ -5,7 +5,6 @@ class Database
 
     private static $INSTANCE = null;
     private $mysqli,
-
     $HOST = 'localhost',
     $USER = 'root',
     $PASS = '',

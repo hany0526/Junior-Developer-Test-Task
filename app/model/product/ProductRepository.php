@@ -1,11 +1,14 @@
 <?php
 
-class ProductTypeRepository
+require 'app/Database.php';
+require 'app/model/product/Product.php';
+
+class ProductRepository
 {
     private $_db;
     private static $INSTANCE = null;
-    private $tableName = 'product_types';
-    private $className = 'ProductType';
+    private $tableName = 'products';
+    private $className = 'Product';
 
     public function __construct()
     {
@@ -15,14 +18,24 @@ class ProductTypeRepository
     public static function getInstance()
     {
         if (!isset(self::$INSTANCE)) {
-            self::$INSTANCE = new ProductTypeRepository();
+            self::$INSTANCE = new ProductRepository();
         }
         return self::$INSTANCE;
     }
 
     public function get()
     {
-        return $this->_db->get($this->tableName, $this->className);
+        $results = [];
+        $tableData = $this->_db->get($this->tableName);
+
+        foreach ($tableData as $row) {
+            $className = ucfirst($row->product_type);
+            $objRow = new $className();
+            $objRow->setFields($row);
+            $results[] = $objRow;
+        }
+
+        return $results;
     }
 
     public function findAll()
@@ -30,9 +43,9 @@ class ProductTypeRepository
         return $this->_db->get_info($this->tableName);
     }
 
-    public function save(ProductType $productType)
+    public function save(Product $product)
     {
-        if ($this->_db->insert($this->tableName, $productType->getFields())) {
+        if ($this->_db->insert($this->tableName, $product->getFields())) {
             return true;
         } else {
             return false;
@@ -50,15 +63,15 @@ class ProductTypeRepository
         return $this->existsByColumn('id', $id);
     }
 
-    public function existsClassName($class_name)
+    public function existsBySKU($sku)
     {
-        return $this->existsByColumn('class_name', $class_name);
+        return $this->existsByColumn('sku', $sku);
     }
 
-    public function update($id, ProductType $productType)
+    public function update($id, Product $product)
     {
 
-        if ($this->_db->update($this->tableName, $productType->getFields(), $id)) {
+        if ($this->_db->update($this->tableName, $product->getFields(), $id)) {
             return true;
         } else {
             return false;

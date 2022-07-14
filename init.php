@@ -1,20 +1,20 @@
 <?php
 
 $dirs = [
-    "classes/*.php",
-    "classes/product/*.php",
-    "classes/productType/*.php",
+    "app/*.php",
+    "app/model/product/*.php",
+    "app/model/productType/*.php",
 ];
 
 // require Models
-require_once "classes/product/Product.php";
-require_once "classes/productType/ProductType.php";
+// require_once "app/model/product/Product.php";
+// require_once "app/model/productType/ProductType.php";
 
-foreach ($dirs as $dir) {
-    foreach (glob($dir) as $file) {
-        require_once $file;
-    }
-}
+// foreach ($dirs as $dir) {
+//     foreach (glob($dir) as $file) {
+//         require_once $file;
+//     }
+// }
 
 function getTitle()
 {

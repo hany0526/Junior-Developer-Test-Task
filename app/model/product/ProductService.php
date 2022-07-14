@@ -1,5 +1,7 @@
 <?php
 
+require 'app/model/product/ProductRepository.php';
+
 class ProductService
 {
 

@@ -12,27 +12,10 @@ ob_start();
 $pageTitle = 'Add Product';
 include 'init.php';
 
-$productTypeService = new ProductTypeService();
-$productTypes = $productTypeService->get();
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-    $productType = ucfirst(Input::get('productType'));
-    if ($productTypeService->productTypeIsExists($productType)) {
-
-        $product = new $productType();
-        $productService = new ProductService();
-        if ($productService->addNewProduct($product)) {
-            header('Location: index.php');
-            exit();
-        }
-    }
-}
-
 ?>
 
 <div class="container">
-    <form id="product_form" action="addproduct.php" method="POST">
+    <form id="product_form" action="storeproduct" method="POST">
 
         <div class="row m-0 align-items-center py-2">
 
@@ -48,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
 
             <div class="col-auto">
-                <a href="index.php" text="Cancel"
+                <a href="/" text="Cancel"
                     class="hvr-grow btn btn-outline-dark shadow-sm px-3 px-lg-4 rounded-pill">Cancel</a>
             </div>
 
