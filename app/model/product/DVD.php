@@ -1,5 +1,7 @@
 <?php
 
+require_once 'app/model/product/Product.php';
+
 class DVD extends Product
 {
     public function __construct()

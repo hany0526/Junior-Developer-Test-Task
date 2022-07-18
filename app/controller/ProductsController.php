@@ -1,16 +1,19 @@
 <?php
 
 require 'app/Input.php';
-require 'app/model/product/ProductService.php';
-require 'app/model/productType/ProductTypeService.php';
+require MODEL_PATH . 'product/ProductService.php';
+require MODEL_PATH . 'productType/ProductTypeService.php';
 
 class productsController
 {
     private $productService;
+    private $productTypeService;
 
     public function __construct()
     {
         $this->productService = new ProductService();
+        $this->productTypeService = new ProductTypeService();
+
     }
 
     // mvc handler request
@@ -18,31 +21,35 @@ class productsController
     {
         $uri = $_SERVER['REQUEST_URI'];
 
-        if ($uri == "/") {
+        if ($uri == "/" && $_SERVER['REQUEST_METHOD'] == 'GET') {
             $this->list();
         } elseif ($uri == "/addproduct" && $_SERVER['REQUEST_METHOD'] == 'GET') {
             $this->addProduct();
         } elseif ($uri == "/storeproduct" && $_SERVER['REQUEST_METHOD'] == 'POST') {
             $this->storeProduct();
-        } elseif ($uri == "/delete") {
-            $this->delete();
+        } elseif ($uri == "/deleteproducts" && $_SERVER['REQUEST_METHOD'] == 'POST') {
+            $this->deleteProducts();
         } else {
             $this->pageRedirect("/");
         }
-
     }
 
     // page redirect.
     public function pageRedirect($url)
     {
         header('Location:' . $url);
-        exit();
     }
 
     // page product list.
     function list() {
-        $products = $this->productService->get();
-        include "view/products/list.php";
+        try {
+
+            $products = $this->productService->get();
+            include VIEW_PATH . "products/list.php";
+
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
 
     // add new product
@@ -50,9 +57,9 @@ class productsController
     {
         try {
 
-            $productTypeService = new ProductTypeService();
-            $productTypes = $productTypeService->get();
-            include "view/products/add.php";
+            $this->productTypeService = new ProductTypeService();
+            $productTypes = $this->productTypeService->get();
+            include VIEW_PATH . "products/add.php";
 
         } catch (Exception $e) {
             throw $e;
@@ -65,7 +72,7 @@ class productsController
         try
         {
             $productType = ucfirst(Input::get('productType'));
-            if ($productTypeService->productTypeIsExists($productType)) {
+            if ($this->productTypeService->productTypeIsExists($productType)) {
 
                 $product = new $productType();
                 $productService = new ProductService();
@@ -79,26 +86,21 @@ class productsController
         }
     }
 
-    // delete product
-    public function delete()
+    // delete products
+    public function deleteProducts()
     {
         try
         {
+            // Get Data From The Form.
+            $deleteProducts = Input::get('deleteProducts');
 
-            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-                // Get Data From The Form.
-                $deleteProducts = Input::get('deleteProducts');
-
-                if (!empty($deleteProducts) && $deleteProducts != []) {
-                    foreach ($deleteProducts as $product_id) {
-                        $productService->deleteProduct($product_id);
-                    }
+            if (!empty($deleteProducts) && $deleteProducts != []) {
+                foreach ($deleteProducts as $product_id) {
+                    $this->productService->deleteProduct($product_id);
                 }
-
-                $this->pageRedirect('index.php');
-
             }
+
+            $this->pageRedirect('/');
 
         } catch (Exception $e) {
             throw $e;

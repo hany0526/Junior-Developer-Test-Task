@@ -6,11 +6,8 @@
 ======================
  */
 
-// Output Buffering Start.
-ob_start();
-
-$pageTitle = 'Add Product';
-include 'init.php';
+$title = 'Add Product';
+include VIEW_PATH . "partials/header.php";
 
 ?>
 
@@ -217,9 +214,6 @@ function productTypeChanged() {
 
 <?php
 
-include "{$viewPartial}footer.php";
-
-// Release The Output
-ob_end_flush();
+include VIEW_PATH . "partials/footer.php";
 
 ?>

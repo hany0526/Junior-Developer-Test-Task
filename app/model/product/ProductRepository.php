@@ -1,7 +1,9 @@
 <?php
 
-require 'app/Database.php';
-require 'app/model/product/Product.php';
+require_once 'app/Database.php';
+require_once 'app/model/product/DVD.php';
+require_once 'app/model/product/Book.php';
+require_once 'app/model/product/Furniture.php';
 
 class ProductRepository
 {

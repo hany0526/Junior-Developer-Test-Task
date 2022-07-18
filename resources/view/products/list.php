@@ -1,12 +1,18 @@
 <?php
 
-$pageTitle = 'Product List';
-include 'init.php';
+/*
+=======================
+== product List Page ==
+=======================
+ */
+
+$title = 'Product List';
+include VIEW_PATH . "partials/header.php";
 
 ?>
 
 <div class="container">
-    <form id="delete_products_form" action="index.php" method="POST">
+    <form id="delete_products_form" action="/deleteproducts" method="POST">
         <div class="row m-0 align-items-center py-2">
 
             <div class="col">
@@ -59,7 +65,6 @@ include 'init.php';
 
 <?php
 
-include "{$viewPartial}footer.php";
-ob_end_flush();
+include VIEW_PATH . "partials/footer.php";
 
 ?>
