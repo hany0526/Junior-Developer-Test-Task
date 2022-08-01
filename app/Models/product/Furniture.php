@@ -1,6 +1,6 @@
 <?php
 
-require_once 'app/model/product/Product.php';
+require_once MODEL_PATH . 'product/Product.php';
 
 class Furniture extends Product
 {

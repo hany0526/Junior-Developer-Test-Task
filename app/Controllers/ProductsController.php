@@ -1,8 +1,9 @@
 <?php
 
 require 'app/Input.php';
-require MODEL_PATH . 'product/ProductService.php';
-require MODEL_PATH . 'productType/ProductTypeService.php';
+
+require SERVICES_PATH . 'ProductService.php';
+require SERVICES_PATH . 'ProductTypeService.php';
 
 class productsController
 {
@@ -13,7 +14,6 @@ class productsController
     {
         $this->productService = new ProductService();
         $this->productTypeService = new ProductTypeService();
-
     }
 
     // mvc handler request

@@ -1,6 +1,6 @@
 <?php
 
-require 'app/model/productType/ProductTypeRepository.php';
+require REPOSITORIES_PATH . 'ProductTypeRepository.php';
 
 class ProductTypeService
 {
