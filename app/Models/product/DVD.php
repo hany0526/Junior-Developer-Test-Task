@@ -24,4 +24,14 @@ class DVD extends Product
         return "Size: {$this->getSize()} MB";
     }
 
+    public function validateProductDetails()
+    {
+        if (isset($this->inputs['size']) && is_numeric($this->inputs['size']) && floatval($this->inputs['size'] >= 0)) {
+            $this->setSize($this->inputs['size']);
+            return true;
+        }
+
+        return false;
+    }
+
 }

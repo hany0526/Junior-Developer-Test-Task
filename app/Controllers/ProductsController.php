@@ -40,7 +40,7 @@ class productsController
         header('Location:' . $url);
     }
 
-    // page product list.
+    // product list.
     function list() {
         try {
 
@@ -73,14 +73,12 @@ class productsController
         {
             $productType = ucfirst(Input::get('productType'));
             if ($this->productTypeService->productTypeIsExists($productType)) {
-
-                $product = new $productType();
-                $productService = new ProductService();
-                if ($productService->addNewProduct($product)) {
+                if ($this->productService->addNewProduct(new $productType())) {
                     $this->pageRedirect('/');
+                } else {
+                    $this->addProduct();
                 }
             }
-
         } catch (Exception $e) {
             throw $e;
         }

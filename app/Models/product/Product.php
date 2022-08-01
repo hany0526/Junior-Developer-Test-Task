@@ -8,6 +8,7 @@ abstract class Product
     private $price;
     private $product_type;
     private $details;
+    protected $inputs;
 
     public function __construct()
     {}
@@ -62,6 +63,7 @@ abstract class Product
         return $this->product_type;
     }
 
+    abstract public function validateProductDetails();
     abstract public function getProductDetails();
 
     public function setDetails($details)
@@ -72,6 +74,11 @@ abstract class Product
     public function getDetails()
     {
         return $this->details;
+    }
+
+    public function setInputs(array $inputs)
+    {
+        $this->inputs = $inputs;
     }
 
     public function setFields($obj)
@@ -92,7 +99,6 @@ abstract class Product
             'product_type' => $this->getProductType(),
             'details' => $this->getDetails(),
         ];
-
     }
 
 }

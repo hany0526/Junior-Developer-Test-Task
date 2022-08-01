@@ -24,6 +24,9 @@ class ProductService
 
     public function addNewProduct(Product $product)
     {
+
+        $product->setInputs($_POST);
+
         $product->setSKU(Input::get('sku'));
         $product->setName(Input::get('name'));
         $product->setPrice(Input::get('price'));
@@ -47,53 +50,25 @@ class ProductService
             $formErrors[] = 'Price Can\'t be <strong>Empty</strong>';
         }
 
-        if ($product->getProductType() == "DVD") {
-            if (Input::get('size') == null) {
-                $formErrors[] = 'Size Can\'t be <strong>Empty</strong>';
-            } else {
-                $product->setDetails(Input::get('size'));
-            }
-        }
-
-        if ($product->getProductType() == "Book") {
-            if (Input::get('weight') == null) {
-                $formErrors[] = 'Weight Can\'t be <strong>Empty</strong>';
-            } else {
-                $product->setDetails(Input::get('weight'));
-            }
-        }
-
-        if ($product->getProductType() == "Furniture") {
-            if (Input::get('height') == null) {
-                $formErrors[] = 'Height Can\'t be <strong>Empty</strong>';
-            }
-
-            if (Input::get('width') == null) {
-                $formErrors[] = 'Width Can\'t be <strong>Empty</strong>';
-            }
-
-            if (Input::get('length') == null) {
-                $formErrors[] = 'Length Can\'t be <strong>Empty</strong>';
-            }
-
-            if (empty($formErrors)) {
-                $product->setDimensions(Input::get('height'), Input::get('width'), Input::get('length'));
-            }
+        if (!$product->validateProductDetails()) {
+            $formErrors[] = '<strong>Invalid Product Details</strong>';
         }
 
         if (!empty($formErrors)) {
-            echo '<div class="container">';
+            echo '<div class="">';
+
             // Loop Into Errors Array And Echo It
             foreach ($formErrors as $error) {
                 echo '<div class="alert alert-danger shadow-danger-sm">' . $error . '</div>';
             }
 
             echo "</div>";
-            return;
+            return false;
         }
 
         if (empty($formErrors)) {
             return $this->productRepository->save($product);
         }
+
     }
 }
