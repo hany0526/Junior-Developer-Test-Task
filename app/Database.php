@@ -2,18 +2,17 @@
 
 class Database
 {
-
     private static $INSTANCE = null;
-    
     private $mysqli,
-    $HOST = 'localhost',
-    $USER = 'root',
-    $PASS = '',
-    $DBNAME = 'scandiweb_task';
+
+    $USER = USER,
+    $HOST = HOST,
+    $PASSWORD = PASSWORD,
+    $DBNAME = DBNAME;
 
     public function __construct()
     {
-        $this->mysqli = new mysqli($this->HOST, $this->USER, $this->PASS, $this->DBNAME);
+        $this->mysqli = new mysqli($this->HOST, $this->USER, $this->PASSWORD, $this->DBNAME);
         if (mysqli_connect_error()) {
             die("connection failed");
         }
